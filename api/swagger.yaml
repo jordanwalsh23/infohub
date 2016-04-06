@@ -1,0 +1,104 @@
+---
+swagger: "2.0"
+info:
+  description: "Consolidate varying sources of information to provide operational\
+    \ intelligence."
+  version: "1.0.0"
+  title: "Whispir Information Hub API"
+  x-gist-id: "f8fc9804652bd2ac2ae2"
+  x-gist-filename: "information-api-swagger.json"
+  x-gist-description: "Whispir Information Hub API (Swagger v1)"
+host: "whispirinfohub-api-mock.herokuapp.com"
+basePath: "/"
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /sources:
+    get:
+      summary: "Retrieves an information source using search criteria"
+      operationId: "sourcesGET"
+      parameters:
+      - name: "name"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "type"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "The information source has been created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/informationSource"
+      x-swagger-router-controller: "Default"
+    post:
+      summary: "Create a new information source."
+      operationId: "sourcesPOST"
+      parameters:
+      - in: "body"
+        name: "source"
+        description: "The information source schema"
+        required: true
+        schema:
+          $ref: "#/definitions/informationSource"
+      responses:
+        201:
+          description: "The information source has been created"
+      x-swagger-router-controller: "Default"
+definitions:
+  informationSource:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        title: "The name of the information source"
+      type:
+        type: "string"
+        title: "The information type located at the source"
+        enum:
+        - "JSON"
+        - "XML"
+        - "RSS"
+        - "TEXT"
+      url:
+        type: "string"
+        title: "The URL to the source information"
+      authentication:
+        $ref: "#/definitions/authentication"
+      visibility:
+        type: "string"
+        title: "The visibility setting for this information source"
+        enum:
+        - "PUBLIC"
+        - "PRIVATE"
+      license:
+        type: "string"
+        title: "The appropriate data licence for this information source"
+  authentication:
+    type: "object"
+    properties:
+      authentication:
+        type: "string"
+        title: "The type of authentication"
+        enum:
+        - "none"
+        - "basic"
+        - "apikey (querystring)"
+        - "apikey (header)"
+      username:
+        type: "string"
+        title: "The username to access the source information (when auth is basic)"
+      password:
+        type: "string"
+        title: "The password to access the source information (when auth is basic)"
+      apikey:
+        type: "string"
+        title: "The apikey to access the source information (when auth is apikey)"
+    title: "Parameters available to the authentication object"
