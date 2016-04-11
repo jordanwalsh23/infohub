@@ -8,13 +8,15 @@ info:
   x-gist-id: "f8fc9804652bd2ac2ae2"
   x-gist-filename: "information-api-swagger.json"
   x-gist-description: "Whispir Information Hub API (Swagger v1)"
-host: "whispirfeedhub-api-mock.herokuapp.com"
+host: "whispirinfohub.herokuapp.com"
 basePath: "/"
 schemes:
 - "https"
 paths:
   /sources:
     get:
+      tags:
+      - "sources"
       summary: "Retrieves an information source using search criteria"
       operationId: "sourcesGET"
       parameters:
@@ -32,63 +34,8 @@ paths:
           schema:
             $ref: "#/definitions/informationSourceArray"
           examples:
-            application/vnd.whispir.infohub-source-v1+json:
-              sources:
-              - id: "CB374DBCAEDF473"
-                name: "Severe Weather Warnings"
-                description: ""
-                license: "MIT"
-                visibility: "public"
-                input:
-                  type: "json"
-                  url: "https://my.data.source.com/data.aspx"
-                  authentication:
-                    query:
-                    - key: "apikey"
-                      value: "abc1234"
-                    header:
-                    - key: "Authorization"
-                      value: "Basic abc1234"
-                output:
-                  insert: "Action 1"
-                  update: "Action 2"
-                  delete: "Action 3"
-                links:
-                - rel: "self"
-                  method: "GET"
-                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-                - rel: "update"
-                  method: "PUT"
-                  type: "application/vnd.whispir.infohub-source-v1+json"
-                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-                - rel: "delete"
-                  method: "DELETE"
-                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-      x-swagger-router-controller: "Default"
-    post:
-      summary: "Create a new information source."
-      operationId: "sourcesPOST"
-      consumes:
-      - "application/vnd.whispir.infohub-source-v1+json"
-      - "application/vnd.whispir.infohub-source-v1+xml"
-      produces:
-      - "application/vnd.whispir.infohub-source-v1+json"
-      - "application/vnd.whispir.infohub-source-v1+xml"
-      parameters:
-      - in: "body"
-        name: "source"
-        description: "The information source schema"
-        required: true
-        schema:
-          $ref: "#/definitions/informationSourceRequest"
-      responses:
-        201:
-          description: "The information source has been created"
-          schema:
-            $ref: "#/definitions/infoSourceResponse"
-          examples:
-            application/vnd.whispir.infohub-source-v1+json:
-              id: "CB374DBCAEDF473"
+            sources:
+            - id: "CB374DBCAEDF473"
               name: "Severe Weather Warnings"
               description: ""
               license: "MIT"
@@ -118,7 +65,62 @@ paths:
               - rel: "delete"
                 method: "DELETE"
                 url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-      x-swagger-router-controller: "Default"
+      x-swagger-router-controller: "Sources"
+    post:
+      tags:
+      - "sources"
+      summary: "Create a new information source."
+      operationId: "sourcesPOST"
+      consumes:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
+      produces:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
+      parameters:
+      - in: "body"
+        name: "source"
+        description: "The information source schema"
+        required: true
+        schema:
+          $ref: "#/definitions/informationSourceRequest"
+      responses:
+        201:
+          description: "The information source has been created"
+          schema:
+            $ref: "#/definitions/infoSourceResponse"
+          examples:
+            id: "CB374DBCAEDF473"
+            name: "Severe Weather Warnings"
+            description: ""
+            license: "MIT"
+            visibility: "public"
+            input:
+              type: "json"
+              url: "https://my.data.source.com/data.aspx"
+              authentication:
+                query:
+                - key: "apikey"
+                  value: "abc1234"
+                header:
+                - key: "Authorization"
+                  value: "Basic abc1234"
+            output:
+              insert: "Action 1"
+              update: "Action 2"
+              delete: "Action 3"
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "update"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-source-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "delete"
+              method: "DELETE"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Sources"
 definitions:
   informationSourceArray:
     type: "object"
