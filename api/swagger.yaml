@@ -8,14 +8,10 @@ info:
   x-gist-id: "f8fc9804652bd2ac2ae2"
   x-gist-filename: "information-api-swagger.json"
   x-gist-description: "Whispir Information Hub API (Swagger v1)"
-host: "whispirinfohub-api-mock.herokuapp.com"
+host: "whispirfeedhub-api-mock.herokuapp.com"
 basePath: "/"
 schemes:
 - "https"
-consumes:
-- "application/json"
-produces:
-- "application/json"
 paths:
   /sources:
     get:
@@ -34,71 +30,219 @@ paths:
         200:
           description: "The information source has been created"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/informationSource"
+            $ref: "#/definitions/informationSourceArray"
+          examples:
+            application/vnd.whispir.infohub-source-v1+json:
+              sources:
+              - id: "CB374DBCAEDF473"
+                name: "Severe Weather Warnings"
+                description: ""
+                license: "MIT"
+                visibility: "public"
+                input:
+                  type: "json"
+                  url: "https://my.data.source.com/data.aspx"
+                  authentication:
+                    query:
+                    - key: "apikey"
+                      value: "abc1234"
+                    header:
+                    - key: "Authorization"
+                      value: "Basic abc1234"
+                output:
+                  insert: "Action 1"
+                  update: "Action 2"
+                  delete: "Action 3"
+                links:
+                - rel: "self"
+                  method: "GET"
+                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+                - rel: "update"
+                  method: "PUT"
+                  type: "application/vnd.whispir.infohub-source-v1+json"
+                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+                - rel: "delete"
+                  method: "DELETE"
+                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
       x-swagger-router-controller: "Default"
     post:
       summary: "Create a new information source."
       operationId: "sourcesPOST"
+      consumes:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
+      produces:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
       parameters:
       - in: "body"
         name: "source"
         description: "The information source schema"
         required: true
         schema:
-          $ref: "#/definitions/informationSource"
+          $ref: "#/definitions/informationSourceRequest"
       responses:
         201:
           description: "The information source has been created"
+          schema:
+            $ref: "#/definitions/infoSourceResponse"
+          examples:
+            application/vnd.whispir.infohub-source-v1+json:
+              id: "CB374DBCAEDF473"
+              name: "Severe Weather Warnings"
+              description: ""
+              license: "MIT"
+              visibility: "public"
+              input:
+                type: "json"
+                url: "https://my.data.source.com/data.aspx"
+                authentication:
+                  query:
+                  - key: "apikey"
+                    value: "abc1234"
+                  header:
+                  - key: "Authorization"
+                    value: "Basic abc1234"
+              output:
+                insert: "Action 1"
+                update: "Action 2"
+                delete: "Action 3"
+              links:
+              - rel: "self"
+                method: "GET"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "update"
+                method: "PUT"
+                type: "application/vnd.whispir.infohub-source-v1+json"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "delete"
+                method: "DELETE"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
       x-swagger-router-controller: "Default"
 definitions:
-  informationSource:
+  informationSourceArray:
+    type: "object"
+    properties:
+      sources:
+        type: "array"
+        items:
+          $ref: "#/definitions/informationSourceRequest"
+    title: "Information Sources"
+    description: "A list of the current information sources"
+  informationSourceRequest:
     type: "object"
     properties:
       name:
         type: "string"
-        title: "The name of the information source"
-      type:
+        description: "The name of the information source"
+        pattern: "^[a-zA-Z0-9\\_\\-]+$"
+      description:
         type: "string"
-        title: "The information type located at the source"
-        enum:
-        - "JSON"
-        - "XML"
-        - "RSS"
-        - "TEXT"
-      url:
-        type: "string"
-        title: "The URL to the source information"
-      authentication:
-        $ref: "#/definitions/authentication"
+        description: "A description of the information within the information source."
       visibility:
         type: "string"
-        title: "The visibility setting for this information source"
+        description: "The visibility setting for this information source"
         enum:
         - "PUBLIC"
         - "PRIVATE"
       license:
         type: "string"
-        title: "The appropriate data licence for this information source"
-  authentication:
+        description: "The appropriate data licence for this information source"
+      input:
+        $ref: "#/definitions/infoSourceInputRequest"
+      output:
+        $ref: "#/definitions/infoSourceOutputRequest"
+    title: "Information Source"
+  infoSourceInputRequest:
     type: "object"
     properties:
-      authentication:
+      type:
         type: "string"
-        title: "The type of authentication"
+        description: "The data type of the input being provided"
         enum:
-        - "none"
-        - "basic"
-        - "apikey (querystring)"
-        - "apikey (header)"
-      username:
+        - "json"
+        - "xml"
+        - "csv"
+        - "rss"
+      url:
         type: "string"
-        title: "The username to access the source information (when auth is basic)"
-      password:
+        description: "The provided value must be a valid URL"
+        pattern: "^(https?|ftp:\\/\\/)([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\\
+          .-]*)*\\/?$"
+      authentication:
+        $ref: "#/definitions/infoSourceAuth"
+    title: "Input Source Info"
+  infoSourceAuth:
+    type: "object"
+    properties:
+      query:
+        type: "array"
+        title: "Query String Parameters"
+        items:
+          $ref: "#/definitions/keyValuePair"
+      header:
+        type: "array"
+        title: "Header Parameters"
+        items:
+          $ref: "#/definitions/keyValuePair"
+    title: "Input Source Authorization"
+    description: "The authorization object to get access to the defined URL resource."
+  infoSourceOutputRequest:
+    type: "object"
+    properties:
+      insert:
         type: "string"
-        title: "The password to access the source information (when auth is basic)"
-      apikey:
+        description: "The name of the Whispir Action to invoke when new data is inserted\
+          \ into the source"
+      update:
         type: "string"
-        title: "The apikey to access the source information (when auth is apikey)"
-    title: "Parameters available to the authentication object"
+        description: "The name of the Whispir Action to invoke when existing data\
+          \ is updated in the source"
+      delete:
+        type: "string"
+        description: "The name of the Whispir Action to invoke when existing data\
+          \ is removed from the source."
+    title: "Output Information"
+    description: "The functions that should be invoked when the information source\
+      \ has been modified"
+  infoSourceResponse:
+    allOf:
+    - $ref: "#/definitions/informationSourceRequest"
+    - type: "object"
+      properties:
+        id:
+          type: "string"
+        created:
+          type: "string"
+          format: "date-time"
+        updated:
+          type: "string"
+          format: "date-time"
+        links:
+          $ref: "#/definitions/links"
+      title: "Information Source"
+    description: "Extended information source for response"
+  keyValuePair:
+    type: "object"
+    properties:
+      key:
+        type: "string"
+        description: "The key that should be used in the query or header"
+      value:
+        type: "string"
+        description: "The value that should be used with the associated key."
+  links:
+    type: "array"
+    items:
+      $ref: "#/definitions/refLinks"
+  refLinks:
+    type: "object"
+    properties:
+      url:
+        type: "string"
+      rel:
+        type: "string"
+      method:
+        type: "string"
+      type:
+        type: "string"
