@@ -22,6 +22,8 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "name"
         in: "query"
@@ -54,37 +56,38 @@ paths:
           schema:
             $ref: "#/definitions/informationSourceArray"
           examples:
-            sources:
-            - id: "CB374DBCAEDF473"
-              name: "Severe Weather Warnings"
-              description: ""
-              license: "MIT"
-              visibility: "public"
-              input:
-                type: "json"
-                url: "https://my.data.source.com/data.aspx"
-                authentication:
-                  query:
-                  - key: "apikey"
-                    value: "abc1234"
-                  header:
-                  - key: "Authorization"
-                    value: "Basic abc1234"
-              output:
-                insert: "Action 1"
-                update: "Action 2"
-                delete: "Action 3"
-              links:
-              - rel: "self"
-                method: "GET"
-                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-              - rel: "update"
-                method: "PUT"
-                type: "application/vnd.whispir.infohub-source-v1+json"
-                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-              - rel: "delete"
-                method: "DELETE"
-                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            application/vnd.whispir.infohub-source-v1+json:
+              sources:
+              - id: "CB374DBCAEDF473"
+                name: "Severe Weather Warnings"
+                description: ""
+                license: "MIT"
+                visibility: "public"
+                input:
+                  type: "json"
+                  url: "https://my.data.source.com/data.aspx"
+                  authentication:
+                    query:
+                    - key: "apikey"
+                      value: "abc1234"
+                    header:
+                    - key: "Authorization"
+                      value: "Basic abc1234"
+                output:
+                  insert: "Action 1"
+                  update: "Action 2"
+                  delete: "Action 3"
+                links:
+                - rel: "self"
+                  method: "GET"
+                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+                - rel: "update"
+                  method: "PUT"
+                  type: "application/vnd.whispir.infohub-source-v1+json"
+                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+                - rel: "delete"
+                  method: "DELETE"
+                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
       x-swagger-router-controller: "Sources"
     post:
       tags:
@@ -94,9 +97,13 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
+      - "application/json"
+      - "application/xml"
       produces:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - in: "body"
         name: "source"
