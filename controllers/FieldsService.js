@@ -1,13 +1,53 @@
 'use strict';
 
-exports.sourcesGet = function(args, res, next) {
+exports.sourcesSourceIdFieldsFieldIdDelete = function(args, res, next) {
   /**
    * parameters expected in the args:
+  * sourceId (String)
+  * fieldId (String)
+  **/
+  // no response value expected for this operation
+  res.end();
+}
+
+exports.sourcesSourceIdFieldsFieldIdGet = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * sourceId (String)
+  * fieldId (String)
+  **/
+    var examples = {};
+    if(Object.keys(examples).length > 0) {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
+  }
+  else {
+    res.end();
+  }
+  
+}
+
+exports.sourcesSourceIdFieldsFieldIdPut = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * sourceId (String)
+  * fieldId (String)
+  **/
+  // no response value expected for this operation
+  res.end();
+}
+
+exports.sourcesSourceIdFieldsGet = function(args, res, next) {
+  /**
+   * parameters expected in the args:
+  * sourceId (String)
   * name (String)
-  * description (String)
+  * path (String)
+  * fieldType (String)
+  * analyse (Boolean)
+  * key (Boolean)
   * created (Date)
   * updated (Date)
-  * visibility (String)
   **/
     var examples = {};
     if(Object.keys(examples).length > 0) {
@@ -20,77 +60,11 @@ exports.sourcesGet = function(args, res, next) {
   
 }
 
-exports.sourcesPost = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * source (InformationSourceRequest)
-  **/
-    var examples = {};
-    if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.sourcesSourceIdDelete = function(args, res, next) {
+exports.sourcesSourceIdFieldsPost = function(args, res, next) {
   /**
    * parameters expected in the args:
   * sourceId (String)
-  **/
-  // no response value expected for this operation
-  res.end();
-}
-
-exports.sourcesSourceIdGet = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * sourceId (String)
-  **/
-    var examples = {};
-    if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.sourcesSourceIdPut = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * sourceId (String)
-  * source (InformationSourceRequest)
-  **/
-  // no response value expected for this operation
-  res.end();
-}
-
-exports.sourcesSourceIdStatusGet = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * sourceId (String)
-  **/
-    var examples = {};
-    if(Object.keys(examples).length > 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(examples[Object.keys(examples)[0]] || {}, null, 2));
-  }
-  else {
-    res.end();
-  }
-  
-}
-
-exports.sourcesSourceIdStatusPut = function(args, res, next) {
-  /**
-   * parameters expected in the args:
-  * sourceId (String)
+  * field (InfoSourceFieldRequest)
   **/
     var examples = {};
     if(Object.keys(examples).length > 0) {

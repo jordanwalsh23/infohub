@@ -18,16 +18,36 @@ paths:
       tags:
       - "sources"
       summary: "Retrieves an information source using search criteria"
-      operationId: "sourcesGET"
+      operationId: "sourcesGet"
+      produces:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
       parameters:
       - name: "name"
         in: "query"
         required: false
         type: "string"
-      - name: "type"
+      - name: "description"
         in: "query"
         required: false
         type: "string"
+      - name: "created"
+        in: "query"
+        required: false
+        type: "string"
+        format: "date-time"
+      - name: "updated"
+        in: "query"
+        required: false
+        type: "string"
+        format: "date-time"
+      - name: "visibility"
+        in: "query"
+        required: false
+        type: "string"
+        enum:
+        - "PUBLIC"
+        - "PRIVATE"
       responses:
         200:
           description: "The information source has been created"
@@ -70,7 +90,7 @@ paths:
       tags:
       - "sources"
       summary: "Create a new information source."
-      operationId: "sourcesPOST"
+      operationId: "sourcesPost"
       consumes:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
@@ -121,6 +141,456 @@ paths:
               method: "DELETE"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
       x-swagger-router-controller: "Sources"
+  /sources/{sourceId}:
+    get:
+      tags:
+      - "sources"
+      summary: "Create a new information source."
+      operationId: "sourcesSourceIdGet"
+      produces:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The information source"
+          schema:
+            $ref: "#/definitions/infoSourceResponse"
+          examples:
+            id: "CB374DBCAEDF473"
+            name: "Severe Weather Warnings"
+            description: ""
+            license: "MIT"
+            visibility: "public"
+            input:
+              type: "json"
+              url: "https://my.data.source.com/data.aspx"
+              authentication:
+                query:
+                - key: "apikey"
+                  value: "abc1234"
+                header:
+                - key: "Authorization"
+                  value: "Basic abc1234"
+            output:
+              insert: "Action 1"
+              update: "Action 2"
+              delete: "Action 3"
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "update"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-source-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "delete"
+              method: "DELETE"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Sources"
+    put:
+      tags:
+      - "sources"
+      summary: "Update the information source"
+      operationId: "sourcesSourceIdPut"
+      consumes:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
+      produces:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "source"
+        description: "The information source schema"
+        required: true
+        schema:
+          $ref: "#/definitions/informationSourceRequest"
+      responses:
+        204:
+          description: "The information source has been updated"
+      x-swagger-router-controller: "Sources"
+    delete:
+      tags:
+      - "sources"
+      summary: "Delete the information source"
+      operationId: "sourcesSourceIdDelete"
+      produces:
+      - "application/vnd.whispir.infohub-source-v1+json"
+      - "application/vnd.whispir.infohub-source-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "The information source has been deleted"
+      x-swagger-router-controller: "Sources"
+  /sources/{sourceId}/documents:
+    get:
+      tags:
+      - "documents"
+      summary: "Retrieve the current list of documents within an information source"
+      operationId: "sourcesSourceIdDocumentsGet"
+      produces:
+      - "application/vnd.whispir.infohub-document-v1+json"
+      - "application/vnd.whispir.infohub-document-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The information source documents have been returned"
+          schema:
+            $ref: "#/definitions/informationSourceDocumentsArray"
+          examples:
+            documents:
+            - id: "AB374BDCE738DCBA"
+              somedata: "somevalue"
+              links:
+              - rel: "self"
+                method: "GET"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "update"
+                method: "PUT"
+                type: "application/vnd.whispir.infohub-field-v1+json"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "delete"
+                method: "DELETE"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Documents"
+    post:
+      tags:
+      - "documents"
+      summary: "Create a new document within an information source"
+      operationId: "sourcesSourceIdDocumentsPost"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      - "text/csv"
+      produces:
+      - "application/vnd.whispir.infohub-document-v1+json"
+      - "application/vnd.whispir.infohub-document-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "document"
+        description: "The document to be stored in the information source"
+        required: true
+        schema:
+          $ref: "#/definitions/infoSourceDocumentRequest"
+      responses:
+        200:
+          description: "The information source documents have been returned"
+          schema:
+            $ref: "#/definitions/informationSourceDocumentsArray"
+          examples:
+            documents:
+            - id: "AB374BDCE738DCBA"
+              somedata: "somevalue"
+              links:
+              - rel: "self"
+                method: "GET"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "update"
+                method: "PUT"
+                type: "application/vnd.whispir.infohub-field-v1+json"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "delete"
+                method: "DELETE"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Documents"
+  /sources/{sourceId}/fields:
+    get:
+      tags:
+      - "fields"
+      summary: "Retrieve the current list of fields of an information source"
+      operationId: "sourcesSourceIdFieldsGet"
+      produces:
+      - "application/vnd.whispir.infohub-field-v1+json"
+      - "application/vnd.whispir.infohub-field-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - name: "name"
+        in: "query"
+        description: "The name of the field to return"
+        required: false
+        type: "string"
+      - name: "path"
+        in: "query"
+        description: "The path of the field to return"
+        required: false
+        type: "string"
+      - name: "fieldType"
+        in: "query"
+        description: "The fieldType of the field to return"
+        required: false
+        type: "string"
+      - name: "analyse"
+        in: "query"
+        description: "The analyse type of the field to return"
+        required: false
+        type: "boolean"
+      - name: "key"
+        in: "query"
+        description: "The key type of the field to return"
+        required: false
+        type: "boolean"
+      - name: "created"
+        in: "query"
+        description: "The created date of the field to return"
+        required: false
+        type: "string"
+        format: "date-time"
+      - name: "updated"
+        in: "query"
+        description: "The updated date of the field to return"
+        required: false
+        type: "string"
+        format: "date-time"
+      responses:
+        200:
+          description: "The information source fields have been returned"
+          schema:
+            $ref: "#/definitions/informationSourceFieldArray"
+          examples:
+            fields:
+            - id: "AB374BDCE738DCBA"
+              name: "id"
+              path: "/product/amoc/id/text()"
+              type: "text"
+              analyse: true
+              key: true
+              links:
+              - rel: "self"
+                method: "GET"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "update"
+                method: "PUT"
+                type: "application/vnd.whispir.infohub-field-v1+json"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "delete"
+                method: "DELETE"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Fields"
+    post:
+      tags:
+      - "fields"
+      summary: "Create a new field on an information source"
+      operationId: "sourcesSourceIdFieldsPost"
+      consumes:
+      - "application/vnd.whispir.infohub-field-v1+json"
+      - "application/vnd.whispir.infohub-field-v1+xml"
+      produces:
+      - "application/vnd.whispir.infohub-field-v1+json"
+      - "application/vnd.whispir.infohub-field-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "field"
+        description: "The information source field to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/infoSourceFieldRequest"
+      responses:
+        201:
+          description: "The information source field has been created"
+          schema:
+            $ref: "#/definitions/infoSourceFieldResponse"
+          examples:
+            id: "AB374BDCE738DCBA"
+            name: "id"
+            path: "/product/amoc/id/text()"
+            type: "text"
+            analyse: true
+            key: true
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "update"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-field-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "delete"
+              method: "DELETE"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Fields"
+  /sources/{sourceId}/fields/{fieldId}:
+    get:
+      tags:
+      - "fields"
+      summary: "Retrieve an information source field by ID"
+      operationId: "sourcesSourceIdFieldsFieldIdGet"
+      produces:
+      - "application/vnd.whispir.infohub-field-v1+json"
+      - "application/vnd.whispir.infohub-field-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - name: "fieldId"
+        in: "path"
+        description: "The information source fieldid"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The information source field"
+          schema:
+            $ref: "#/definitions/infoSourceFieldResponse"
+          examples:
+            id: "AB374BDCE738DCBA"
+            name: "id"
+            path: "/product/amoc/id/text()"
+            type: "text"
+            analyse: true
+            key: true
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "update"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-field-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "delete"
+              method: "DELETE"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Fields"
+    put:
+      tags:
+      - "fields"
+      summary: "Update an information source field by ID"
+      operationId: "sourcesSourceIdFieldsFieldIdPut"
+      consumes:
+      - "application/vnd.whispir.infohub-field-v1+json"
+      - "application/vnd.whispir.infohub-field-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - name: "fieldId"
+        in: "path"
+        description: "The information source fieldid"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "The information source field has been updated"
+      x-swagger-router-controller: "Fields"
+    delete:
+      tags:
+      - "fields"
+      summary: "Delete an information source field by ID"
+      operationId: "sourcesSourceIdFieldsFieldIdDelete"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - name: "fieldId"
+        in: "path"
+        description: "The information source fieldid"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "The information source field has been deleted"
+      x-swagger-router-controller: "Fields"
+  /sources/{sourceId}/status:
+    get:
+      tags:
+      - "sources"
+      summary: "Retrieve the current status of an information source"
+      operationId: "sourcesSourceIdStatusGet"
+      produces:
+      - "application/vnd.whispir.infohub-status-v1+json"
+      - "application/vnd.whispir.infohub-status-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The information source status"
+          schema:
+            $ref: "#/definitions/infoSourceStatusResponse"
+          examples:
+            enabled: false
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "enable"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-status-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/status?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Sources"
+    put:
+      tags:
+      - "sources"
+      summary: "Update the current status of an information source"
+      operationId: "sourcesSourceIdStatusPut"
+      consumes:
+      - "application/vnd.whispir.infohub-status-v1+json"
+      - "application/vnd.whispir.infohub-status-v1+xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The information source status has been updated"
+          schema:
+            $ref: "#/definitions/infoSourceStatusResponse"
+          examples:
+            enabled: true
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "disable"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-status-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/status?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Sources"
 definitions:
   informationSourceArray:
     type: "object"
@@ -131,6 +601,10 @@ definitions:
           $ref: "#/definitions/informationSourceRequest"
     title: "Information Sources"
     description: "A list of the current information sources"
+    xml:
+      name: "infohub-source-array-v1"
+      namespace: "http://schemas.api.whispir.com"
+      prefix: "ns3"
   informationSourceRequest:
     type: "object"
     properties:
@@ -223,9 +697,24 @@ definitions:
           type: "string"
           format: "date-time"
         links:
-          $ref: "#/definitions/links"
-      title: "Information Source"
+          type: "array"
+          xml:
+            wrapped: false
+          items:
+            $ref: "#/definitions/refLinks"
     description: "Extended information source for response"
+  infoSourceStatusResponse:
+    type: "object"
+    properties:
+      enabled:
+        type: "boolean"
+      links:
+        type: "array"
+        xml:
+          wrapped: false
+        items:
+          $ref: "#/definitions/refLinks"
+    description: "Status of the information source"
   keyValuePair:
     type: "object"
     properties:
@@ -235,18 +724,106 @@ definitions:
       value:
         type: "string"
         description: "The value that should be used with the associated key."
-  links:
-    type: "array"
-    items:
-      $ref: "#/definitions/refLinks"
   refLinks:
     type: "object"
     properties:
       url:
         type: "string"
+        xml:
+          attribute: true
       rel:
         type: "string"
+        xml:
+          attribute: true
       method:
+        type: "string"
+        xml:
+          attribute: true
+      type:
+        type: "string"
+        xml:
+          attribute: true
+    xml:
+      name: "link"
+  informationSourceFieldArray:
+    type: "object"
+    properties:
+      fields:
+        type: "array"
+        items:
+          $ref: "#/definitions/infoSourceFieldResponse"
+  infoSourceFieldRequest:
+    type: "object"
+    required:
+    - "analyse"
+    - "key"
+    - "name"
+    - "path"
+    - "type"
+    properties:
+      name:
+        type: "string"
+      path:
         type: "string"
       type:
         type: "string"
+        enum:
+        - "text"
+        - "timestamp"
+        - "date-time"
+        - "integer"
+      analyse:
+        type: "boolean"
+      key:
+        type: "boolean"
+  infoSourceFieldResponse:
+    title: "InformationSourceFields"
+    allOf:
+    - $ref: "#/definitions/infoSourceFieldRequest"
+    - type: "object"
+      properties:
+        id:
+          type: "string"
+        created:
+          type: "string"
+          format: "date-time"
+        updated:
+          type: "string"
+          format: "date-time"
+        links:
+          type: "array"
+          xml:
+            wrapped: false
+          items:
+            $ref: "#/definitions/refLinks"
+    description: "Extended information source fields for response"
+  informationSourceDocumentsArray:
+    properties:
+      documents:
+        type: "array"
+        items:
+          $ref: "#/definitions/infoSourceDocumentResponse"
+    title: "InformationSourceDocuments"
+  infoSourceDocumentRequest:
+    type: "string"
+  infoSourceDocumentResponse:
+    title: "InformationSourceDocuments"
+    allOf:
+    - $ref: "#/definitions/infoSourceDocumentRequest"
+    - type: "object"
+      properties:
+        id:
+          type: "string"
+        created:
+          type: "string"
+          format: "date-time"
+        updated:
+          type: "string"
+          format: "date-time"
+        links:
+          type: "array"
+          xml:
+            wrapped: false
+          items:
+            $ref: "#/definitions/refLinks"
+    description: "Extended information document fields for response"
