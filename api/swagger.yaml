@@ -56,38 +56,37 @@ paths:
           schema:
             $ref: "#/definitions/informationSourceArray"
           examples:
-            application/vnd.whispir.infohub-source-v1+json:
-              sources:
-              - id: "CB374DBCAEDF473"
-                name: "Severe Weather Warnings"
-                description: ""
-                license: "MIT"
-                visibility: "public"
-                input:
-                  type: "json"
-                  url: "https://my.data.source.com/data.aspx"
-                  authentication:
-                    query:
-                    - key: "apikey"
-                      value: "abc1234"
-                    header:
-                    - key: "Authorization"
-                      value: "Basic abc1234"
-                output:
-                  insert: "Action 1"
-                  update: "Action 2"
-                  delete: "Action 3"
-                links:
-                - rel: "self"
-                  method: "GET"
-                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-                - rel: "update"
-                  method: "PUT"
-                  type: "application/vnd.whispir.infohub-source-v1+json"
-                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
-                - rel: "delete"
-                  method: "DELETE"
-                  url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+            sources:
+            - id: "CB374DBCAEDF473"
+              name: "Severe Weather Warnings"
+              description: ""
+              license: "MIT"
+              visibility: "public"
+              input:
+                type: "json"
+                url: "https://my.data.source.com/data.aspx"
+                authentication:
+                  query:
+                  - key: "apikey"
+                    value: "abc1234"
+                  header:
+                  - key: "Authorization"
+                    value: "Basic abc1234"
+              output:
+                insert: "Action 1"
+                update: "Action 2"
+                delete: "Action 3"
+              links:
+              - rel: "self"
+                method: "GET"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "update"
+                method: "PUT"
+                type: "application/vnd.whispir.infohub-source-v1+json"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+              - rel: "delete"
+                method: "DELETE"
+                url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
       x-swagger-router-controller: "Sources"
     post:
       tags:
@@ -148,6 +147,62 @@ paths:
               method: "DELETE"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
       x-swagger-router-controller: "Sources"
+  /sources/search:
+    get:
+      tags:
+      - "search"
+      summary: "Retrieve a list of documents across sources that match some query\
+        \ parameters"
+      operationId: "sourcesSearchGet"
+      produces:
+      - "application/vnd.whispir.infohub-document-v1+json"
+      - "application/vnd.whispir.infohub-document-v1+xml"
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "query"
+        in: "query"
+        description: "The string to search for within the documents"
+        required: true
+        type: "string"
+      - name: "sourceIds"
+        in: "query"
+        description: "The source IDs to search through"
+        required: false
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      - name: "created"
+        in: "query"
+        required: false
+        type: "string"
+        format: "date-time"
+      - name: "updated"
+        in: "query"
+        required: false
+        type: "string"
+        format: "date-time"
+      responses:
+        200:
+          description: "The information source document has been returned"
+          schema:
+            $ref: "#/definitions/informationSourceDocumentsArray"
+          examples:
+            id: "AB374BDCE738DCBA"
+            somedata: "somevalue"
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "update"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-field-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "delete"
+              method: "DELETE"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Search"
   /sources/{sourceId}:
     get:
       tags:
@@ -157,6 +212,8 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -208,9 +265,8 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
-      produces:
-      - "application/vnd.whispir.infohub-source-v1+json"
-      - "application/vnd.whispir.infohub-source-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -232,9 +288,6 @@ paths:
       - "sources"
       summary: "Delete the information source"
       operationId: "sourcesSourceIdDelete"
-      produces:
-      - "application/vnd.whispir.infohub-source-v1+json"
-      - "application/vnd.whispir.infohub-source-v1+xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -254,6 +307,8 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-document-v1+json"
       - "application/vnd.whispir.infohub-document-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -293,6 +348,8 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-document-v1+json"
       - "application/vnd.whispir.infohub-document-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -306,10 +363,10 @@ paths:
         schema:
           $ref: "#/definitions/infoSourceDocumentRequest"
       responses:
-        200:
+        201:
           description: "The information source documents have been returned"
           schema:
-            $ref: "#/definitions/informationSourceDocumentsArray"
+            $ref: "#/definitions/infoSourceDocumentResponse"
           examples:
             documents:
             - id: "AB374BDCE738DCBA"
@@ -326,6 +383,103 @@ paths:
                 method: "DELETE"
                 url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
       x-swagger-router-controller: "Documents"
+  /sources/{sourceId}/documents/{documentId}:
+    get:
+      tags:
+      - "documents"
+      summary: "Retrieve the current list of documents within an information source"
+      operationId: "sourcesSourceIdDocumentsDocumentIdGet"
+      produces:
+      - "application/vnd.whispir.infohub-document-v1+json"
+      - "application/vnd.whispir.infohub-document-v1+xml"
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - name: "documentId"
+        in: "path"
+        description: "The information source document id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The information source document has been returned"
+          schema:
+            $ref: "#/definitions/informationSourceDocumentsArray"
+          examples:
+            id: "AB374BDCE738DCBA"
+            somedata: "somevalue"
+            links:
+            - rel: "self"
+              method: "GET"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "update"
+              method: "PUT"
+              type: "application/vnd.whispir.infohub-field-v1+json"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            - rel: "delete"
+              method: "DELETE"
+              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      x-swagger-router-controller: "Documents"
+    put:
+      tags:
+      - "documents"
+      summary: "Update a document within an information source"
+      operationId: "sourcesSourceIdDocumentsDocumentIdPut"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      - "text/csv"
+      produces:
+      - "application/vnd.whispir.infohub-document-v1+json"
+      - "application/vnd.whispir.infohub-document-v1+xml"
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - name: "documentId"
+        in: "path"
+        description: "The information source document id"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "document"
+        description: "The information source document"
+        required: true
+        schema:
+          $ref: "#/definitions/infoSourceDocumentRequest"
+      responses:
+        204:
+          description: "The information source document has been updated"
+      x-swagger-router-controller: "Documents"
+    delete:
+      tags:
+      - "documents"
+      summary: "Delete a document from an information source"
+      operationId: "sourcesSourceIdDocumentsDocumentIdDelete"
+      parameters:
+      - name: "sourceId"
+        in: "path"
+        description: "The information source id"
+        required: true
+        type: "string"
+      - name: "documentId"
+        in: "path"
+        description: "The information source document id"
+        required: true
+        type: "string"
+      responses:
+        204:
+          description: "The information source document has been deleted"
+      x-swagger-router-controller: "Documents"
   /sources/{sourceId}/fields:
     get:
       tags:
@@ -335,6 +489,8 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -411,9 +567,13 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
+      - "application/json"
+      - "application/xml"
       produces:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -459,6 +619,8 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -502,6 +664,8 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -546,6 +710,8 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-status-v1+json"
       - "application/vnd.whispir.infohub-status-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -576,6 +742,8 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-status-v1+json"
       - "application/vnd.whispir.infohub-status-v1+xml"
+      - "application/json"
+      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
