@@ -187,7 +187,7 @@ paths:
         200:
           description: "The information source document has been returned"
           schema:
-            $ref: "#/definitions/informationSourceDocumentsArray"
+            $ref: "#/definitions/searchResultsContainer"
           examples:
             id: "AB374BDCE738DCBA"
             somedata: "somevalue"
@@ -1002,3 +1002,38 @@ definitions:
           items:
             $ref: "#/definitions/refLinks"
     description: "Extended information document fields for response"
+  searchResultsContainer:
+    type: "object"
+    properties:
+      metrics:
+        $ref: "#/definitions/searchResultsMetrics"
+      results:
+        type: "array"
+        items:
+          $ref: "#/definitions/searchResult"
+    title: "SearchResults"
+  searchResultsMetrics:
+    type: "object"
+    properties:
+      took:
+        type: "number"
+        format: "int32"
+      timed_out:
+        type: "boolean"
+      total:
+        type: "number"
+        format: "int32"
+      max_score:
+        type: "number"
+        format: "int32"
+    title: "Metrics"
+  searchResult:
+    type: "object"
+    properties:
+      source:
+        type: "string"
+      score:
+        type: "number"
+        format: "int32"
+      document:
+        $ref: "#/definitions/infoSourceDocumentResponse"
