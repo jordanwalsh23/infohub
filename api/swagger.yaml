@@ -189,19 +189,20 @@ paths:
           schema:
             $ref: "#/definitions/searchResultsContainer"
           examples:
-            id: "AB374BDCE738DCBA"
-            somedata: "somevalue"
-            links:
-            - rel: "self"
-              method: "GET"
-              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
-            - rel: "update"
-              method: "PUT"
-              type: "application/vnd.whispir.infohub-field-v1+json"
-              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
-            - rel: "delete"
-              method: "DELETE"
-              url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+            metrics:
+              took: 74
+              timed_out: false
+              total: 1
+              max_score: 1
+            results:
+            - source: "BC34DCAD489DF01D"
+              score: 0.48589999999999999857891452847979962825775146484375
+              document:
+                somedata: "somevalue"
+            - source: "C9034DFDAAC34DCF"
+              score: 0.126400000000000012345680033831740729510784149169921875
+              document:
+                somedata2: "somevalue2"
       x-swagger-router-controller: "Search"
   /sources/{sourceId}:
     get:
@@ -1052,6 +1053,6 @@ definitions:
         type: "string"
       score:
         type: "number"
-        format: "int32"
+        format: "float"
       document:
         $ref: "#/definitions/infoSourceDocumentResponse"
