@@ -825,6 +825,8 @@ definitions:
       authentication:
         $ref: "#/definitions/infoSourceAuth"
     title: "Input Source Info"
+    xml:
+      name: "infoSourceInput"
   infoSourceAuth:
     type: "object"
     properties:
@@ -840,6 +842,8 @@ definitions:
           $ref: "#/definitions/keyValuePair"
     title: "Input Source Authorization"
     description: "The authorization object to get access to the defined URL resource."
+    xml:
+      name: "infoSourceAuth"
   infoSourceOutputRequest:
     type: "object"
     properties:
@@ -858,6 +862,8 @@ definitions:
     title: "Output Information"
     description: "The functions that should be invoked when the information source\
       \ has been modified"
+    xml:
+      name: "infoSourceOutput"
   infoSourceResponse:
     allOf:
     - $ref: "#/definitions/informationSourceRequest"
@@ -890,6 +896,8 @@ definitions:
         items:
           $ref: "#/definitions/refLinks"
     description: "Status of the information source"
+    xml:
+      name: "infoSourceStatusResponse"
   keyValuePair:
     type: "object"
     properties:
@@ -899,6 +907,8 @@ definitions:
       value:
         type: "string"
         description: "The value that should be used with the associated key."
+    xml:
+      name: "keyvaluepair"
   refLinks:
     type: "object"
     properties:
@@ -927,6 +937,8 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/infoSourceFieldResponse"
+    xml:
+      name: "informationSourceFieldArray"
   infoSourceFieldRequest:
     type: "object"
     required:
@@ -951,6 +963,8 @@ definitions:
         type: "boolean"
       key:
         type: "boolean"
+    xml:
+      name: "infoSourceFieldRequest"
   infoSourceFieldResponse:
     title: "InformationSourceFields"
     allOf:
@@ -979,8 +993,12 @@ definitions:
         items:
           $ref: "#/definitions/infoSourceDocumentResponse"
     title: "InformationSourceDocuments"
+    xml:
+      name: "informationSourceDocumentsArray"
   infoSourceDocumentRequest:
     type: "string"
+    xml:
+      name: "infoSourceDocumentRequest"
   infoSourceDocumentResponse:
     title: "InformationSourceDocuments"
     allOf:
