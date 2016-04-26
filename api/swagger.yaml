@@ -1,8 +1,25 @@
 ---
 swagger: "2.0"
 info:
-  description: "Consolidate varying sources of information to provide operational\
-    \ intelligence."
+  description: "As a large amount of the information that is used within customer\
+    \ notifications comes from external information sources, Whispir will be enhanced\
+    \ to include a capability where users can maintain these external sources, and\
+    \ set up new ones as required.\n\nThis capability (called the **Information Hub**)\
+    \ will be made available in the Administration module of the Whispir Platform,\
+    \ to all users with the Company Administrator role. \n\nThis capability allows\
+    \ these users to configure and change the information sources they want to utilise\
+    \ within their Whispir Events and Whispir Messages. \n\nAs per the Whispir Platform,\
+    \ the Whispir Information Hub is available to be accessed via the Whispir API.\n\
+    \nThis allows developers to configure their applications to feed data into Whispir\
+    \ in real time to be processed by the Information Hub and the resulting Whispir\
+    \ Actions to be performed.\n\nThe key functions that will be supported by the\
+    \ Whispir Information Hub API are as follows:\n\n* Ability to configure Information\
+    \ Sources (Create, Read, Update, Delete)\n* Ability to manage the documents within\
+    \ an Information Source (Create, Read, Update, Delete)\n* Ability to query the\
+    \ data that is currently available within an Information Source\n\nTo facilitate\
+    \ these use cases, Whispir will provide the following API Endpoints:\n\n```\n\
+    /sources\n/sources/search\n/sources/:id\n/sources/:id/status\n/sources/:id/fields\n\
+    /sources/:id/documents\n/sources/:id/documents/:id\n```\n"
   version: "1.0.0"
   title: "Whispir Information Hub API"
   x-gist-id: "f8fc9804652bd2ac2ae2"
@@ -13,6 +30,33 @@ basePath: "/"
 schemes:
 - "https"
 paths:
+  /auth:
+    post:
+      tags:
+      - "auth"
+      summary: "Create a new JWT"
+      operationId: "authPost"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters: []
+      responses:
+        201:
+          description: "The JWT is returned"
+          schema:
+            $ref: "#/definitions/authResponse"
+          examples:
+            application/json:
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"
+            application/xml:
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ"
+      security:
+      - Username and Password: []
+      - API Key: []
+      x-swagger-router-controller: "Auth"
   /sources:
     get:
       tags:
@@ -87,6 +131,9 @@ paths:
               - rel: "delete"
                 method: "DELETE"
                 url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Sources"
     post:
       tags:
@@ -146,6 +193,9 @@ paths:
             - rel: "delete"
               method: "DELETE"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Sources"
   /sources/search:
     get:
@@ -203,6 +253,9 @@ paths:
               score: 0.126400000000000012345680033831740729510784149169921875
               document:
                 somedata2: "somevalue2"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Search"
   /sources/{sourceId}:
     get:
@@ -257,6 +310,9 @@ paths:
             - rel: "delete"
               method: "DELETE"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Sources"
     put:
       tags:
@@ -283,6 +339,9 @@ paths:
       responses:
         204:
           description: "The information source has been updated"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Sources"
     delete:
       tags:
@@ -298,6 +357,9 @@ paths:
       responses:
         204:
           description: "The information source has been deleted"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Sources"
   /sources/{sourceId}/documents:
     get:
@@ -336,6 +398,9 @@ paths:
               - rel: "delete"
                 method: "DELETE"
                 url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Documents"
     post:
       tags:
@@ -383,6 +448,9 @@ paths:
               - rel: "delete"
                 method: "DELETE"
                 url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Documents"
   /sources/{sourceId}/documents/{documentId}:
     get:
@@ -425,6 +493,9 @@ paths:
             - rel: "delete"
               method: "DELETE"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473/documents/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Documents"
     put:
       tags:
@@ -460,6 +531,9 @@ paths:
       responses:
         204:
           description: "The information source document has been updated"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Documents"
     delete:
       tags:
@@ -480,6 +554,9 @@ paths:
       responses:
         204:
           description: "The information source document has been deleted"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Documents"
   /sources/{sourceId}/fields:
     get:
@@ -559,6 +636,9 @@ paths:
               - rel: "delete"
                 method: "DELETE"
                 url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Fields"
     post:
       tags:
@@ -610,6 +690,9 @@ paths:
             - rel: "delete"
               method: "DELETE"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Fields"
   /sources/{sourceId}/fields/{fieldId}:
     get:
@@ -656,6 +739,9 @@ paths:
             - rel: "delete"
               method: "DELETE"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473/fields/AB374BDCE738DCBA?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Fields"
     put:
       tags:
@@ -681,6 +767,9 @@ paths:
       responses:
         204:
           description: "The information source field has been updated"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Fields"
     delete:
       tags:
@@ -701,6 +790,9 @@ paths:
       responses:
         204:
           description: "The information source field has been deleted"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Fields"
   /sources/{sourceId}/status:
     get:
@@ -734,6 +826,9 @@ paths:
               method: "PUT"
               type: "application/vnd.whispir.infohub-status-v1+json"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473/status?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Sources"
     put:
       tags:
@@ -766,7 +861,24 @@ paths:
               method: "PUT"
               type: "application/vnd.whispir.infohub-status-v1+json"
               url: "https://api.whispir.com/sources/CB374DBCAEDF473/status?apikey=csbjdsbosdobcdbcosboi"
+      security:
+      - API Key: []
+      - Bearer: []
       x-swagger-router-controller: "Sources"
+securityDefinitions:
+  Username and Password:
+    description: "The Username and Password of the Whispir user that is accessing\
+      \ the API."
+    type: "basic"
+  API Key:
+    description: "The API Key provided after creating an application in Whispir.io.\n"
+    type: "apiKey"
+    name: "apikey"
+    in: "query"
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
 definitions:
   informationSourceArray:
     type: "object"
@@ -1056,3 +1168,12 @@ definitions:
         format: "float"
       document:
         $ref: "#/definitions/infoSourceDocumentResponse"
+  authResponse:
+    type: "object"
+    properties:
+      token:
+        type: "string"
+    xml:
+      name: "auth"
+      namespace: "http://schemas.api.whispir.com"
+      prefix: "ns3"
