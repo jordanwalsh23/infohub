@@ -550,6 +550,11 @@ paths:
         description: "The key type of the field to return"
         required: false
         type: "boolean"
+      - name: "updateField"
+        in: "query"
+        description: "The updateField type of the field to return"
+        required: false
+        type: "boolean"
       - name: "created"
         in: "query"
         description: "The created date of the field to return"
@@ -572,9 +577,8 @@ paths:
             - id: "AB374BDCE738DCBA"
               name: "id"
               path: "/product/amoc/id/text()"
-              type: "text"
-              analyse: true
               key: true
+              updateField: false
               links:
               - rel: "self"
                 method: "GET"
@@ -625,6 +629,7 @@ paths:
             type: "text"
             analyse: true
             key: true
+            updateField: false
             links:
             - rel: "self"
               method: "GET"
@@ -672,6 +677,7 @@ paths:
             type: "text"
             analyse: true
             key: true
+            updateField: false
             links:
             - rel: "self"
               method: "GET"
@@ -970,11 +976,10 @@ definitions:
   infoSourceFieldRequest:
     type: "object"
     required:
-    - "analyse"
     - "key"
     - "name"
     - "path"
-    - "type"
+    - "updateField"
     properties:
       name:
         type: "string"
@@ -990,6 +995,8 @@ definitions:
       analyse:
         type: "boolean"
       key:
+        type: "boolean"
+      updateField:
         type: "boolean"
     xml:
       name: "infoSourceFieldRequest"
