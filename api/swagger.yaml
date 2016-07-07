@@ -37,11 +37,11 @@ paths:
       summary: "Create a new JWT"
       operationId: "authPost"
       consumes:
-      - "application/json"
-      - "application/xml"
+      - "application/vnd.whispir.auth-v1+json"
+      - "application/vnd.whispir.auth-v1+xml"
       produces:
-      - "application/json"
-      - "application/xml"
+      - "application/vnd.whispir.auth-v1+json"
+      - "application/vnd.whispir.auth-v1+xml"
       parameters: []
       responses:
         201:
@@ -66,8 +66,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "name"
         in: "query"
@@ -87,13 +85,6 @@ paths:
         required: false
         type: "string"
         format: "date-time"
-      - name: "visibility"
-        in: "query"
-        required: false
-        type: "string"
-        enum:
-        - "PUBLIC"
-        - "PRIVATE"
       responses:
         200:
           description: "The information source has been created"
@@ -108,18 +99,12 @@ paths:
               visibility: "public"
               input:
                 type: "json"
-                url: "https://my.data.source.com/data.aspx"
-                authentication:
-                  query:
-                  - key: "apikey"
-                    value: "abc1234"
-                  header:
-                  - key: "Authorization"
-                    value: "Basic abc1234"
+                url: "https://my.data.source.com/data.aspx?apikey=abcd1234"
+                headers:
+                - key: "Authorization"
+                  value: "Basic abc1234"
               output:
-                insert: "Action 1"
-                update: "Action 2"
-                delete: "Action 3"
+                onChange: "Action 1"
               links:
               - rel: "self"
                 method: "GET"
@@ -143,13 +128,9 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
-      - "application/json"
-      - "application/xml"
       produces:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - in: "body"
         name: "source"
@@ -170,18 +151,12 @@ paths:
             visibility: "public"
             input:
               type: "json"
-              url: "https://my.data.source.com/data.aspx"
-              authentication:
-                query:
-                - key: "apikey"
-                  value: "abc1234"
-                header:
-                - key: "Authorization"
-                  value: "Basic abc1234"
+              url: "https://my.data.source.com/data.aspx?apikey=abcd1234"
+              headers:
+              - key: "Authorization"
+                value: "Basic abc1234"
             output:
-              insert: "Action 1"
-              update: "Action 2"
-              delete: "Action 3"
+              onChange: "Action 1"
             links:
             - rel: "self"
               method: "GET"
@@ -207,8 +182,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-document-v1+json"
       - "application/vnd.whispir.infohub-document-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "query"
         in: "query"
@@ -246,11 +219,11 @@ paths:
               max_score: 1
             results:
             - source: "BC34DCAD489DF01D"
-              score: 0.48589999999999999857891452847979962825775146484375
+              score: 0.4859
               document:
                 somedata: "somevalue"
             - source: "C9034DFDAAC34DCF"
-              score: 0.126400000000000012345680033831740729510784149169921875
+              score: 0.1264
               document:
                 somedata2: "somevalue2"
       security:
@@ -266,8 +239,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -287,18 +258,12 @@ paths:
             visibility: "public"
             input:
               type: "json"
-              url: "https://my.data.source.com/data.aspx"
-              authentication:
-                query:
-                - key: "apikey"
-                  value: "abc1234"
-                header:
-                - key: "Authorization"
-                  value: "Basic abc1234"
+              url: "https://my.data.source.com/data.aspx?apikey=abcd1234"
+              headers:
+              - key: "Authorization"
+                value: "Basic abc1234"
             output:
-              insert: "Action 1"
-              update: "Action 2"
-              delete: "Action 3"
+              onChange: "Action 1"
             links:
             - rel: "self"
               method: "GET"
@@ -322,8 +287,6 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-source-v1+json"
       - "application/vnd.whispir.infohub-source-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -370,8 +333,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-document-v1+json"
       - "application/vnd.whispir.infohub-document-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -409,13 +370,9 @@ paths:
       operationId: "sourcesSourceIdDocumentsPost"
       consumes:
       - "application/json"
-      - "application/xml"
-      - "text/csv"
       produces:
       - "application/vnd.whispir.infohub-document-v1+json"
       - "application/vnd.whispir.infohub-document-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -436,7 +393,8 @@ paths:
           examples:
             documents:
             - id: "AB374BDCE738DCBA"
-              somedata: "somevalue"
+              document:
+                somedata: "somevalue"
               links:
               - rel: "self"
                 method: "GET"
@@ -461,8 +419,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-document-v1+json"
       - "application/vnd.whispir.infohub-document-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -504,13 +460,9 @@ paths:
       operationId: "sourcesSourceIdDocumentsDocumentIdPut"
       consumes:
       - "application/json"
-      - "application/xml"
-      - "text/csv"
       produces:
       - "application/vnd.whispir.infohub-document-v1+json"
       - "application/vnd.whispir.infohub-document-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -567,8 +519,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -648,13 +598,9 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
-      - "application/json"
-      - "application/xml"
       produces:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -703,8 +649,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -751,8 +695,6 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-field-v1+json"
       - "application/vnd.whispir.infohub-field-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -803,8 +745,6 @@ paths:
       produces:
       - "application/vnd.whispir.infohub-status-v1+json"
       - "application/vnd.whispir.infohub-status-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -838,8 +778,6 @@ paths:
       consumes:
       - "application/vnd.whispir.infohub-status-v1+json"
       - "application/vnd.whispir.infohub-status-v1+xml"
-      - "application/json"
-      - "application/xml"
       parameters:
       - name: "sourceId"
         in: "path"
@@ -928,50 +866,27 @@ definitions:
         enum:
         - "json"
         - "xml"
-        - "csv"
         - "rss"
       url:
         type: "string"
         description: "The provided value must be a valid URL"
         pattern: "^(https?|ftp:\\/\\/)([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\\
           .-]*)*\\/?$"
-      authentication:
-        $ref: "#/definitions/infoSourceAuth"
-    title: "Input Source Info"
-    xml:
-      name: "infoSourceInput"
-  infoSourceAuth:
-    type: "object"
-    properties:
-      query:
-        type: "array"
-        title: "Query String Parameters"
-        items:
-          $ref: "#/definitions/keyValuePair"
-      header:
+      headers:
         type: "array"
         title: "Header Parameters"
         items:
           $ref: "#/definitions/keyValuePair"
-    title: "Input Source Authorization"
-    description: "The authorization object to get access to the defined URL resource."
+    title: "Input Source Info"
     xml:
-      name: "infoSourceAuth"
+      name: "infoSourceInput"
   infoSourceOutputRequest:
     type: "object"
     properties:
-      insert:
+      onChange:
         type: "string"
         description: "The name of the Whispir Action to invoke when new data is inserted\
           \ into the source"
-      update:
-        type: "string"
-        description: "The name of the Whispir Action to invoke when existing data\
-          \ is updated in the source"
-      delete:
-        type: "string"
-        description: "The name of the Whispir Action to invoke when existing data\
-          \ is removed from the source."
     title: "Output Information"
     description: "The functions that should be invoked when the information source\
       \ has been modified"
