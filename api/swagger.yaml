@@ -219,11 +219,11 @@ paths:
               max_score: 1
             results:
             - source: "BC34DCAD489DF01D"
-              score: 0.4859
+              score: 0.48589999999999999857891452847979962825775146484375
               document:
                 somedata: "somevalue"
             - source: "C9034DFDAAC34DCF"
-              score: 0.1264
+              score: 0.126400000000000012345680033831740729510784149169921875
               document:
                 somedata2: "somevalue2"
       security:
@@ -550,11 +550,6 @@ paths:
         description: "The key type of the field to return"
         required: false
         type: "boolean"
-      - name: "updateField"
-        in: "query"
-        description: "The updateField type of the field to return"
-        required: false
-        type: "boolean"
       - name: "created"
         in: "query"
         description: "The created date of the field to return"
@@ -629,7 +624,6 @@ paths:
             type: "text"
             analyse: true
             key: true
-            updateField: false
             links:
             - rel: "self"
               method: "GET"
@@ -677,7 +671,6 @@ paths:
             type: "text"
             analyse: true
             key: true
-            updateField: false
             links:
             - rel: "self"
               method: "GET"
@@ -976,10 +969,11 @@ definitions:
   infoSourceFieldRequest:
     type: "object"
     required:
+    - "analyse"
     - "key"
     - "name"
     - "path"
-    - "updateField"
+    - "type"
     properties:
       name:
         type: "string"

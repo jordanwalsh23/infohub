@@ -46,7 +46,6 @@ exports.sourcesSourceIdFieldsGet = function(args, res, next) {
   * fieldType (String)
   * analyse (Boolean)
   * key (Boolean)
-  * updateField (Boolean)
   * created (Date)
   * updated (Date)
   **/
